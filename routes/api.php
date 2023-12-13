@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,28 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+
+
+Route::post('/login', [LoginController::class, 'apiLogin']);
+
+Route::middleware('auth:sanctum')->get('/student/lessons/{lesson}', [LessonController::class, 'now'])->name('api.lessons.now.show');
+
+
+Route::middleware('auth:sanctum')->post('/student/lessons/presents/store', [PresentController::class, 'store'])->name('api.lessons.present.store');
+
+
+
+
+
+
+Route::middleware('auth:sanctum')->get('/users/profile/my', function (Request $request) {
+    return response()->json(['user'=>\Auth::user()]);
+});
+
+
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
