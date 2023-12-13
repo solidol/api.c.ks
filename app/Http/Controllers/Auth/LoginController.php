@@ -31,7 +31,7 @@ class LoginController extends Controller
      * @var string
      */
     //protected $redirectTo = RouteServiceProvider::HOME;
-    protected $redirectTo = '/home';
+    protected $redirectTo = RouteServiceProvider::HOME;
     protected $loginType;
     /**
      * Create a new controller instance.
@@ -51,7 +51,6 @@ class LoginController extends Controller
             'login' => 'required|string',
             'password' => 'required|string'
         ]);
-
         $credentials = [
             $this->loginType => $request->login,
             'password' => $request->password
