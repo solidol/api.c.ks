@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PresentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CheckerController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,22 +22,24 @@ use App\Http\Controllers\UserController;
 
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::middleware('auth:sanctum')->get('/student/lessons/{lesson}', [LessonController::class, 'now'])->name('api.lessons.now.show');
 
 
-Route::middleware('auth:sanctum')->post('/student/lessons/presents/store', [PresentController::class, 'store'])->name('api.lessons.present.store');
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
+    Route::get('/student/lessons/{lesson}', [LessonController::class, 'now'])->name('api.lessons.now.show');
+    Route::post('/student/lessons/presents/store', [PresentController::class, 'store'])->name('api.lessons.present.store');
 
-
-
-
-
-Route::middleware('auth:sanctum')->get('/users/profile/my', [UserController::class, 'show']);
-
-
-
-
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::get('/users/profile/my', [UserController::class, 'show']);
+    
+    Route::post('/checker/moodle',[CheckerController::class, 'moodle']);
+    
 });
+
+
+
+
+
+
+
+
+
