@@ -15,40 +15,9 @@ use Yajra\DataTables\DataTables;
 class UserController extends Controller
 {
 
-    public function index($slug = 'teachers')
+    public function index()
     {
 
-        if (Auth::user()->isAdmin()) {
-
-
-            if (\request()->ajax()) {
-                switch ($slug) {
-                    case 'teachers':
-                        $users = User::teachers();
-                        break;
-                    case 'students':
-                        $users = User::students();
-                        break;
-                    default:
-                        $users = User::teachers();
-                        break;
-                }
-                return DataTables::of($users)
-                    ->addIndexColumn()
-                    ->addColumn('fullname', function ($user) {
-                        return $user->userable->fullname;
-                    })
-                    ->addColumn('action', function ($user) {
-                        $actionBtn = '<a href="' . route('users.loginas', ['user' => $user]) . '" class="btn btn-success btn-login" data-uid="' . $user->id . '">Увійти</a>';
-                        return $actionBtn;
-                    })
-
-                    ->rawColumns(['action'])
-                    ->make(true);
-            }
-            return view('users.index', ['slug' => $slug]);
-        } else
-            return view('auth.login');
     }
 
     function show(User $user)
