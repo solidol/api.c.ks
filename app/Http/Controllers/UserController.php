@@ -28,7 +28,7 @@ class UserController extends Controller
             return view('auth.login');
     }
 
-    function myShow()
+    function showMy()
     {
         $user = Auth::user();
         if (\request()->ajax()) {

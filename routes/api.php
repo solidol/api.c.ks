@@ -20,7 +20,7 @@ use App\Http\Controllers\CheckerController;
 
 
 
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login', [LoginController::class, 'apiLogin'])->name('login');
 
 
 
@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/student/lessons/{lesson}', [LessonController::class, 'now'])->name('api.lessons.now.show');
     Route::post('/student/lessons/presents/store', [PresentController::class, 'store'])->name('api.lessons.present.store');
 
-    Route::get('/users/profile/my', [UserController::class, 'show']);
+    Route::get('/users/profile/my', [UserController::class, 'showMy']);
     
     Route::post('/checker/moodle',[CheckerController::class, 'moodle']);
     
