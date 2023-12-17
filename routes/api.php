@@ -20,7 +20,7 @@ use App\Http\Controllers\CheckerController;
 
 
 
-Route::post('/login', [LoginController::class, 'apiLogin'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 
 
