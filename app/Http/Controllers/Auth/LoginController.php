@@ -66,11 +66,17 @@ class LoginController extends Controller
                 return redirect()->intended($this->redirectTo);
             }
         }
-        return redirect()->back()
-            ->withInput()
-            ->withErrors([
-                'login' => 'Ваш обліковий запис не знайдено в системі'
-            ]);
+        if (\request()->ajax()) {
+            $err = ['status' => '401'];
+            return response()->json($err, 401);
+        } else {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors([
+                    'login' => 'Ваш обліковий запис не знайдено в системі'
+                ]);
+        }
+
     }
 
 
