@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PresentController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,7 +19,7 @@ use App\Http\Controllers\PresentController;
 
 
 
-Route::post('/login', [LoginController::class, 'apiLogin']);
+Route::post('/login', [LoginController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/student/lessons/{lesson}', [LessonController::class, 'now'])->name('api.lessons.now.show');
 
@@ -30,9 +31,7 @@ Route::middleware('auth:sanctum')->post('/student/lessons/presents/store', [Pres
 
 
 
-Route::middleware('auth:sanctum')->get('/users/profile/my', function (Request $request) {
-    return response()->json(['user'=>\Auth::user()]);
-});
+Route::middleware('auth:sanctum')->get('/users/profile/my', [UserController::class, 'show']);
 
 
 

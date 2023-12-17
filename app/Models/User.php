@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use stdClass;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -108,5 +110,28 @@ class User extends Authenticatable
         } else {
             return false;
         }
+    }
+
+    public function getShortObj(){
+        
+        $toObj = (object)[];
+
+        $toObj->id = $this->id; 
+        $toObj->name = $this->name; 
+        $toObj->email = $this->email; 
+        $toObj->roles = $this->roles; 
+        $toObj->userable = (object)[];
+        $toObj->userable->id = $this->userable->id;
+        $toObj->userable->fullname = $this->userable->fullname;
+        $toObj->userable->shortname = $this->userable->shortname;
+
+        
+        if ($this->isStudent()){
+            $toObj->userable->group = (object)[];
+            $toObj->userable->group->id = $this->userable->group->kod_grup;
+            $toObj->userable->group->title = $this->userable->group->title;
+        }
+
+        return $toObj;
     }
 }

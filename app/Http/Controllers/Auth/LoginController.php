@@ -56,8 +56,15 @@ class LoginController extends Controller
             'password' => $request->password
         ];
         if (Auth::attempt($credentials)) {
-            Log::login();
-            return redirect()->intended($this->redirectTo);
+            if (\request()->ajax()) {
+                $toJson = Auth::user()->getShortObj();
+                Log::apiLogin();
+                $token = $request->user()->createToken('auth-token')->plainTextToken;
+                return response()->json(['token' => $token, 'user' => $toJson]);
+            } else {
+                Log::login();
+                return redirect()->intended($this->redirectTo);
+            }
         }
         return redirect()->back()
             ->withInput()
@@ -66,29 +73,7 @@ class LoginController extends Controller
             ]);
     }
 
-    public function apiLogin(Request $request)
-    {
-        if (\request()->ajax()) {
-        $this->validate($request, [
-            'login' => 'required|string',
-            'password' => 'required|string'
-        ]);
 
-        $credentials = [
-            $this->loginType => $request->login,
-            'password' => $request->password
-        ];
-        if (Auth::attempt($credentials)) {
-                Log::apiLogin();
-                $token = $request->user()->createToken('auth-token')->plainTextToken;
-                return response()->json(['token' => $token, 'user' => Auth::user()]);
-            }else{
-                return response()->json(['error'=> '401'],401);
-            } 
-        }else{
-            abort(404);
-        }
-    }
     protected function checkLoginInput()
     {
         $inputData = request()->get('login');
