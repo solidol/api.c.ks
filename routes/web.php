@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HelpController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function(){
+Route::get('/', function () {
     return view('start');
 })->name('start');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/helpers/api/v1.0', [HelpController::class, 'api1_0'])->name('helpers.api.1_0');
+});
+
+
 
 Auth::routes([
     'register' => false,
