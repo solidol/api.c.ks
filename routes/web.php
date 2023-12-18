@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function(){
+    return view('start');
+})->name('start');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 
 Auth::routes([
     'register' => false,
@@ -26,4 +27,3 @@ Auth::routes([
     // Email Verification Routes...
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

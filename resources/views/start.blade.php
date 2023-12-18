@@ -10,12 +10,6 @@
                     </div>
 
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
                         @if (Auth::user())
                             <p class="fs-2">Вітаємо, {{ Auth::user()->userable->fullname }}!</p>
                         @else
