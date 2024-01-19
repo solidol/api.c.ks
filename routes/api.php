@@ -29,6 +29,9 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
     require_once __DIR__ . '/api_parts/timetables.php';
+    require_once __DIR__ . '/api_parts/journals.php';
+    require_once __DIR__ . '/api_parts/teachers.php';
+    require_once __DIR__ . '/api_parts/lessons.php';
 
 
     Route::get('/student/lessons/{lesson}', [LessonController::class, 'now'])->name('api.lessons.now.show');

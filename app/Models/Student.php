@@ -9,23 +9,14 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $table = 'spisok_stud';
     protected $guarded = [];
 
     public $timestamps = false;
-    protected $primaryKey = 'kod_stud';
 
 
-    protected $appends = ['id', 'fullname', 'shortname', 'shortname_rev'];
 
-    public function getIdAttribute()
-    {
-        return $this->kod_stud;
-    }
-    public function getFullnameAttribute()
-    {
-        return $this->FIO_stud;
-    }
+    protected $appends = ['shortname', 'shortname_rev'];
+
     public function getShortnameAttribute()
     {
         $name = explode(' ', $this->FIO_stud);
@@ -50,7 +41,7 @@ class Student extends Model
     }
     public function group()
     {
-        return $this->belongsTo(Group::class, 'kod_grup', 'kod_grup');
+        return $this->belongsTo(Group::class);
     }
 
     public function marks()

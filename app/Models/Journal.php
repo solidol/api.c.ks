@@ -22,15 +22,15 @@ class Journal extends Model
     }
     public function lessons()
     {
-        return $this->hasMany(Lesson::class)->orderBy('data_');
+        return $this->hasMany(Lesson::class)->orderBy('lesson_date');
     }
     public function lessonsDate($from, $to)
     {
-        return $this->hasMany(Lesson::class)->whereBetween('data_', [$from, $to])->orderBy('data_');
+        return $this->hasMany(Lesson::class)->whereBetween('lesson_date', [$from, $to])->orderBy('lesson_date');
     }
     public function group()
     {
-        return $this->belongsTo(Group::class, 'group_id', 'kod_grup')->orderBy('nomer_grup');
+        return $this->belongsTo(Group::class)->orderBy('title');
     }
     public function subject()
     {

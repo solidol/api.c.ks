@@ -8,36 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model
 {
     use HasFactory;
-    protected $table = 'grups';
 
     protected $guarded = [];
     public $timestamps = false;
-    protected $primaryKey = 'kod_grup';
-    protected $appends = ['id', 'title'];
 
-    public function getIdAttribute()
-    {
-        return $this->kod_grup;
-    }
-    public function getTitleAttribute()
-    {
-        return $this->nomer_grup;
-    }
+
     public function students()
     {
-        return $this->hasMany(Student::class, 'kod_grup', 'kod_grup')->orderBy('FIO_stud');
+        return $this->hasMany(Student::class)->orderBy('fullname');
     }
     public function lessons()
     {
-        return $this->hasMany(Lesson::class, 'kod_grupi', 'kod_grup');
+        return $this->hasMany(Lesson::class);
     }
     public function journals()
     {
-        return $this->hasMany(Journal::class, 'group_id', 'kod_grup');
+        return $this->hasMany(Journal::class);
     }
     public function curator()
     {
-        return $this->belongsTo(Teacher::class, 'kod_prep');
+        return $this->belongsTo(Teacher::class);
     }
     public function teachers()
     {

@@ -12,37 +12,18 @@ use App\Models\Control;
 
 class Lesson extends Model
 {
-    protected $table = 'lessons_';
-    protected $dates = ['data_'];
-    protected $appends = ['id', 'date_formatted', 'student_url'];
     public $timestamps = false;
     protected $primaryKey = 'kod_pari';
     protected $guarded = [];
 
 
-    public function getIdAttribute()
-    {
-        return $this->kod_pari;
-    }
-    public function getDateFormattedAttribute()
-    {
-        return $this->data_->format('d.m.Y');
-    }
-    public function getStudentUrlAttribute()
-    {
-        return URL::temporarySignedRoute(
-            'lessons.now.show',
-            now()->addMinutes(30),
-            ['lesson' => $this]
-        );
-    }
     public function absents()
     {
         return $this->hasMany(Absent::class, 'kod_lesson');
     }
     public function presents()
     {
-        return $this->hasMany(Present::class, 'lesson_id');
+        return $this->hasMany(Present::class);
     }
     public function absent($student_id)
     {
@@ -54,17 +35,17 @@ class Lesson extends Model
     }
     public function group()
     {
-        return $this->belongsTo(Group::class, 'kod_grupi')->orderBy('nomer_grup');
+        return $this->belongsTo(Group::class)->orderBy('nomer_grup');
     }
 
     public function subject()
     {
-        return $this->belongsTo(Subject::class, 'kod_subj')->orderBy('subject_name');
+        return $this->belongsTo(Subject::class)->orderBy('subject_name');
     }
 
     public function teacher()
     {
-        return $this->belongsTo(Teacher::class, 'kod_prep');
+        return $this->belongsTo(Teacher::class);
     }
 
     public function journal()
@@ -85,7 +66,7 @@ class Lesson extends Model
 
     public static function getByDate($date, $pnom)
     {
-        return Lesson::where('data_', $date)->where('nom_pari', $pnom)->get();
+        return Lesson::where('lesson_data', $date)->where('lesson_number', $pnom)->get();
     }
 
     public function isPresent(Student $student)
